@@ -30,19 +30,38 @@ class UserService {
             })
         })
     }
-    save(user){
+
+    checkName(username) {
         let connect = connection.getConnection();
         return new Promise((resolve,reject) => {
-            connect.query( `insert into user ( userName, password, jole) 
-                        values ('${user.userName}', '${user.password}', 'member')`, (err)=> {
+            connect.query( `select * from user where userName = '${username}'`, (err, data)=> {
                 if (err){
-                    console.log(err);
+                    reject ('err')
                 }else {
-                    resolve ('Create success')
+                    resolve (data)
                 }
             })
 
         })
+    }
+    async save(user){
+        let connect = connection.getConnection();
+        let checkUser = await this.checkName(user.userName);
+        if(checkUser.length !== 0) {
+            return 'Loi'
+        } else {
+            return new Promise((resolve,reject) => {
+                connect.query( `insert into user ( userName, password, jole) 
+                        values ('${user.userName}', '${user.password}', 'member')`, (err)=> {
+                    if (err){
+                        reject ('err')
+                    }else {
+                        resolve ('Create success')
+                    }
+                })
+
+            })
+        }
     }
 
 }

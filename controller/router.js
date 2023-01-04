@@ -8,7 +8,8 @@ const router = {
     'delete': homeHandleRouter.deleteProduct,
     'edit': homeHandleRouter.editHome,
     'login': userHandleRouter.login,
-    'signup': userHandleRouter.Signup
+    'signup': userHandleRouter.Signup,
+
 
 }
 module.exports = router
