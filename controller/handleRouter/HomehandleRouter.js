@@ -5,6 +5,67 @@ const qs = require('qs')
 
 class HomeHandleRouter {
 
+    static getHomeMemberHtml(homes, homeUserHtml) {
+        let tbodys = '';
+        homes.map((home, indexs) => {
+            tbodys += `
+                <tr >
+                    <td>${indexs + 1}</td>
+                    <td>${home.name}</td>
+                    <td>${home.address}</td>
+                    <td>${home.price}</td>
+                    <td>${home.description}</td>
+                    <td>${home.nameCategory}</td>
+                    <td><img style="width: 200px; height: 180px" src="/img/${home.image}" alt=""></td>
+                   
+                </tr>`
+        })
+        homeUserHtml = homeUserHtml.replace('{list}', tbodys);
+        return homeUserHtml;
+    }
+
+    showHomeMember(req, res) {
+        if (req.method === 'GET') {
+            fs.readFile('./views/homeUser.html', 'utf-8', async (err, homeUserHtml) => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    let a = await HomeService.findAll();
+                    homeUserHtml = HomeHandleRouter.getHomeMemberHtml(a, homeUserHtml)
+                    res.writeHead(200, 'text/html');
+                    res.write(homeUserHtml);
+                    res.end();
+                }
+            })
+        } else {                          // Search bằng tên gần đúng
+            let data = '';
+            req.on('data', chunk => {
+                data += chunk;
+            })
+            req.on('end', async err => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    let search = qs.parse(data);
+                    fs.readFile('./views/homeUser.html', "utf-8", async (err, indexsHtml) => {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            let list = await HomeService.findByName(search.search);
+                            console.log(list)
+                            indexsHtml = HomeHandleRouter.getHomeMemberHtml(list, indexsHtml)
+                            res.writeHead(200, {'location': '/homeUser'});
+                            res.write(indexsHtml);
+                            res.end();
+                        }
+                    })
+
+                }
+            })
+        }
+    }
+
+
     static getHomeHtml(homes, homeHtml) {
         let tbody = '';
         homes.map((home, index) => {
@@ -24,6 +85,7 @@ class HomeHandleRouter {
         homeHtml = homeHtml.replace('{list}', tbody);
         return homeHtml;
     }
+
 
     showHome(req, res) {
         if (req.method === 'GET') {
