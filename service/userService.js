@@ -2,7 +2,7 @@ const connection = require('../model/connection');
 connection.connected()
 class UserService {
 
-    findMember(){
+    findAll(){
         let sql= 'select * from user';
         let connect = connection.getConnection()
         return new Promise((resolve, reject) => {

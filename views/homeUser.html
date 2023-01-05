@@ -26,19 +26,15 @@
                     <a class="nav-link" href="/news">Tin tức</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" name = "username">
+                        {username}
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Thông Tin Cá Nhân</a></li>
+                        <li><a class="dropdown-item" href="#">Sửa Thông Tin</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="/login">Đăng Xuất</a></li>
                     </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">Đăng xuất</a>
                 </li>
             </ul>
             <form action="" class="d-flex" method="post">
@@ -56,23 +52,24 @@
 
         <br>
         <br>
-        <table border="1" style="margin: auto; width: 100%" >
-            <tr style="width: 40px">
-                <td>STT</td>
-                <td>Tên</td>
-                <td>Địa chỉ</td>
-                <td>Giá</td>
-                <td>Miêu tả</td>
-                <td>Loại</td>
-                <td>Ảnh</td>
+        <table class="table" style="margin: auto; width: 100%" >
+            <thead>
+            <tr >
+                <th scope="col" style="width: 5%">STT</th>
+                <th scope="col">Tên</th>
+                <th scope="col">Địa Chỉ</th>
+                <th scope="col">Giá</th>
+                <th scope="col">Miêu Tả</th>
+                <th scope="col">Loại</th>
+                <th scope="col">Ảnh</th>
 
             </tr>
-        <tbody>
-        {list}
-        </tbody>
-
-
+            </thead>
+            <tbody>
+            {list}
+            </tbody>
         </table>
+
     </div>
 </div>
 

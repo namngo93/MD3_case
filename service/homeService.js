@@ -46,7 +46,6 @@ class HomeService {
     }
 
     save(home){
-        console.log(home)
         let connect = connection.getConnection()
         connect.query( `insert into home ( price, name, address, description, image, idS) 
                         values (${home.price}, '${home.name}', '${home.address}','${home.description}','${home.image}',${home.idCategory})`, (err)=> {
@@ -64,6 +63,7 @@ class HomeService {
             set home.name = '${home.name}',
                 home.address = '${home.address}',
                home.price = ${home.price},
+                home.image = '${home.image}',
                 home.description ='${home.description}',
             home.idS = ${category}
             where id = ${id}`,(err, home) =>{
@@ -78,7 +78,7 @@ class HomeService {
     }
 
     remove(id){
-        let connect = connection.getConnection()
+        let connect = connection.getConnection();
         let sql = `delete from home where id = ${id}`;
         connect.query( sql, (err)=> {
             if (err){

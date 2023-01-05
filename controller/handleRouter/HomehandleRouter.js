@@ -2,10 +2,10 @@ const fs = require('fs');
 const HomeService = require('../../service/homeService');
 const categoryService = require('../../service/categoryService');
 const qs = require('qs')
-
+const cookie = require('cookie');
 class HomeHandleRouter {
 
-    static getHomeMemberHtml(homes, homeUserHtml) {
+    static getHomeMemberHtml(userName,homes, homeUserHtml) {
         let tbodys = '';
         homes.map((home, indexs) => {
             tbodys += `
@@ -21,17 +21,21 @@ class HomeHandleRouter {
                 </tr>`
         })
         homeUserHtml = homeUserHtml.replace('{list}', tbodys);
+        homeUserHtml = homeUserHtml.replace('{username}', userName);
         return homeUserHtml;
     }
 
     showHomeMember(req, res) {
+        const cookies = cookie.parse(req.headers.cookie || '');
+        let userCurrent = JSON.parse(cookies.name);
         if (req.method === 'GET') {
             fs.readFile('./views/homeUser.html', 'utf-8', async (err, homeUserHtml) => {
                 if (err) {
                     console.log(err)
                 } else {
                     let a = await HomeService.findAll();
-                    homeUserHtml = HomeHandleRouter.getHomeMemberHtml(a, homeUserHtml)
+                    let userName = userCurrent.userName
+                    homeUserHtml = HomeHandleRouter.getHomeMemberHtml(userName,a, homeUserHtml)
                     res.writeHead(200, 'text/html');
                     res.write(homeUserHtml);
                     res.end();
@@ -51,9 +55,10 @@ class HomeHandleRouter {
                         if (err) {
                             console.log(err)
                         } else {
+                            let userName = userCurrent.userName
                             let list = await HomeService.findByName(search.search);
                             console.log(list)
-                            indexsHtml = HomeHandleRouter.getHomeMemberHtml(list, indexsHtml)
+                            indexsHtml = HomeHandleRouter.getHomeMemberHtml(userName,list, indexsHtml)
                             res.writeHead(200, {'location': '/homeUser'});
                             res.write(indexsHtml);
                             res.end();
@@ -64,13 +69,11 @@ class HomeHandleRouter {
             })
         }
     }
-
-
     static getHomeHtml(homes, homeHtml) {
         let tbody = '';
         homes.map((home, index) => {
             tbody += `
-                <tr >
+                <tr style="text-align: center">
                     <td>${index + 1}</td>
                     <td>${home.name}</td>
                     <td>${home.address}</td>
@@ -191,7 +194,6 @@ class HomeHandleRouter {
                     console.log(err.message)
                 } else {
                     let home = await HomeService.findByID(id);
-                    let house = await HomeService.findAll();
                     let categories = await categoryService.findAll()
                     let options = '';
                     categories.map(category => {
@@ -204,8 +206,9 @@ class HomeHandleRouter {
                     editHtml = editHtml.replace('{address}', home[0].address);
                     editHtml = editHtml.replace('{price}', home[0].price);
                     editHtml = editHtml.replace('{description}', home[0].description);
+                    editHtml = editHtml.replace('{image}',home[0].image)
                     editHtml = editHtml.replace('{nameCategory}', home[0].nameCategory);
-                    editHtml = editHtml.replace('{id}', id)
+                    editHtml = editHtml.replace('{id}', id);
                     res.writeHead(200, 'text/html');
                     res.write(editHtml);
                     res.end();

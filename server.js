@@ -42,5 +42,5 @@ const server = http.createServer((req,res) =>{
     }
 });
 server.listen(4000, () => {
-    console.log('Server is running!')
+    console.log('Server is running at http://localhost:4000/login')
 })
