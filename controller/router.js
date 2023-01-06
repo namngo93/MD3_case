@@ -9,7 +9,8 @@ const router = {
     'edit': homeHandleRouter.editHome,
     'login': userHandleRouter.login,
     'signup': userHandleRouter.Signup,
-    'aboutUser': userHandleRouter.showUser
+    'aboutUser': userHandleRouter.showUser,
+    // 'editUser': userHandleRouter.editUser
 }
 module.exports = router
 

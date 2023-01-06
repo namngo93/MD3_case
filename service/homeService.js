@@ -48,7 +48,7 @@ class HomeService {
     save(home){
         let connect = connection.getConnection()
         connect.query( `insert into home ( price, name, address, description, image, idS) 
-                        values (${home.price}, '${home.name}', '${home.address}','${home.description}','${home.image}',${home.idCategory})`, (err)=> {
+                        values (${home.price}, "${home.name}", '${home.address}','${home.description}','${home.image}',${home.idCategory})`, (err)=> {
             if (err){
                 console.log(err);
             }

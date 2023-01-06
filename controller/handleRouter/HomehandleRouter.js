@@ -17,7 +17,7 @@ class HomeHandleRouter {
                     <td>${home.description}</td>
                     <td>${home.nameCategory}</td>
                     <td><img style="width: 200px; height: 180px" src="/img/${home.image}" alt=""></td>
-                   
+                    <td><button class="btn btn-outline-secondary"> Thuê </button></td>
                 </tr>`
         })
         homeUserHtml = homeUserHtml.replace('{list}', tbodys);
@@ -80,7 +80,7 @@ class HomeHandleRouter {
                     <td>${home.price}</td>
                     <td>${home.description}</td>
                     <td>${home.nameCategory}</td>
-                    <td><img style="width: 200px; height: 180px" src="/img/${home.image}" alt=""></td>
+                    <td><img style="width: 250px; height: 200px" src="/img/${home.image}" alt=""></td>
                     <td><a href="/edit/${home.id}"><button class="btn btn-outline-success">Sửa</button></a></td>
                     <td><a href="/delete/${home.id}"><button class="btn btn-outline-secondary">Xóa</button></a></td>
                 </tr>`

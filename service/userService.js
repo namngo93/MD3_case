@@ -16,6 +16,20 @@ class UserService {
         })
     }
 
+    findByID(id){
+        let connect = connection.getConnection();
+        let sql = `select * from user where iUser = ${id}`;
+        return new Promise((resolve,reject) =>{
+            connect.query(sql,(err,list) =>{
+                if (err){
+                    reject (err)
+                }else {
+                    console.log('Success');
+                    resolve(list);
+                }
+            })
+        })
+    }
 
     login(user) {
         let sql = `select * from user where userName = '${user.username}' and password ='${user.password}'`;
@@ -41,7 +55,6 @@ class UserService {
                     resolve (data)
                 }
             })
-
         })
     }
     async save(user){
@@ -64,6 +77,22 @@ class UserService {
         }
     }
 
+    // edit(user, id){
+    //     let connect = connection.getConnection();
+    //     return new Promise((resolve,reject) =>{
+    //         connect.query(`update user
+    //         set user.userName = '${user.userName}',
+    //             home.address = '${user.password}'
+    //         where idUser = ${id}`,(err, user) =>{
+    //             if (err){
+    //                 reject(err);
+    //             }else {
+    //                 console.log('Success');
+    //                 resolve(user);
+    //             }
+    //         })
+    //     })
+    // }
 }
 
 module.exports = new UserService()
